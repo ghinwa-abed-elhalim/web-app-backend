@@ -92,4 +92,17 @@ if (isset($_POST['action']) && $_POST['action'] == "edit_quiz") {
         sendResponse(false, "Quiz update failed");
     }
 }
+
+if (isset($_POST['action']) && $_POST['action'] == "delete_quiz") {
+    $quiz_id = $_POST['quiz_id'];
+
+    $stmt = $conn->prepare("DELETE FROM quizzes WHERE id = ?");
+    $stmt->bind_param("i", $quiz_id);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Quiz deleted successfully");
+    } else {
+        sendResponse(false, "Quiz deletion failed");
+    }
+}
 ?>
