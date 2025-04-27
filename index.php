@@ -120,5 +120,34 @@ if (isset($_POST['action']) && $_POST['action'] == "create_question") {
     }
 }
 
+if (isset($_GET['action']) && $_GET['action'] == "get_questions") {
+    $quiz_id = $_GET['quiz_id'];
+
+    $stmt = $conn->prepare("SELECT * FROM questions WHERE quiz_id = ?");
+    $stmt->bind_param("i", $quiz_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $questions = [];
+    while ($row = $result->fetch_assoc()) {
+        $questions[] = $row;
+    }
+    sendResponse(true, "Questions fetched", $questions);
+}
+
+
+
+if (isset($_POST['action']) && $_POST['action'] == "edit_question") {
+    $question_id = $_POST['question_id'];
+    $question_text = $_POST['question_text'];
+
+    $stmt = $conn->prepare("UPDATE questions SET question_text = ? WHERE id = ?");
+    $stmt->bind_param("si", $question_text, $question_id);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Question updated successfully");
+    } else {
+        sendResponse(false, "Question update failed");
+    }
+}
 
 ?>
