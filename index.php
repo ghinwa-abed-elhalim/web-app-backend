@@ -32,5 +32,23 @@ if (isset($_POST['action']) && $_POST['action'] == "register") {
     }
 }
 
+if (isset($_POST['action']) && $_POST['action'] == "login") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            sendResponse(true, "Login successful", ["user_id" => $user['id']]);
+        } else {
+            sendResponse(false, "Invalid password");
+        }
+    } else {
+        sendResponse(false, "User not found");
+    }
+}
 ?>
