@@ -72,5 +72,5 @@ CREATE TABLE scores (
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id)
 );
 
-
+INSERT INTO roles (role_name) VALUES ('Admin'), ('User');
 
