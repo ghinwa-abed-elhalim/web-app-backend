@@ -150,4 +150,18 @@ if (isset($_POST['action']) && $_POST['action'] == "edit_question") {
     }
 }
 
+if (isset($_POST['action']) && $_POST['action'] == "delete_question") {
+    $question_id = $_POST['question_id'];
+
+    $stmt = $conn->prepare("DELETE FROM questions WHERE id = ?");
+    $stmt->bind_param("i", $question_id);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Question deleted successfully");
+    } else {
+        sendResponse(false, "Question deletion failed");
+    }
+}
+
+$conn->close();
 ?>
