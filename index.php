@@ -51,4 +51,21 @@ if (isset($_POST['action']) && $_POST['action'] == "login") {
         sendResponse(false, "User not found");
     }
 }
+
+if (isset($_POST['action']) && $_POST['action'] == "create_quiz") {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $category_id = $_POST['category_id'];
+    $created_by = $_POST['created_by'];
+
+    $stmt = $conn->prepare("INSERT INTO quizzes (title, description, category_id, created_by) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssii", $title, $description, $category_id, $created_by);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Quiz created successfully");
+    } else {
+        sendResponse(false, "Quiz creation failed");
+    }
+}
+
 ?>
