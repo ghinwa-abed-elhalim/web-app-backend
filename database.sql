@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS quiz_app;
+USE quiz_app;
+
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(50) NOT NULL,
