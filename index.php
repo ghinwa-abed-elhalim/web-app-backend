@@ -68,4 +68,12 @@ if (isset($_POST['action']) && $_POST['action'] == "create_quiz") {
     }
 }
 
+if (isset($_GET['action']) && $_GET['action'] == "get_quizzes") {
+    $result = $conn->query("SELECT * FROM quizzes");
+    $quizzes = [];
+    while ($row = $result->fetch_assoc()) {
+        $quizzes[] = $row;
+    }
+    sendResponse(true, "Quizzes fetched", $quizzes);
+}
 ?>
