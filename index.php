@@ -105,4 +105,20 @@ if (isset($_POST['action']) && $_POST['action'] == "delete_quiz") {
         sendResponse(false, "Quiz deletion failed");
     }
 }
+
+if (isset($_POST['action']) && $_POST['action'] == "create_question") {
+    $quiz_id = $_POST['quiz_id'];
+    $question_text = $_POST['question_text'];
+
+    $stmt = $conn->prepare("INSERT INTO questions (quiz_id, question_text) VALUES (?, ?)");
+    $stmt->bind_param("is", $quiz_id, $question_text);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Question created successfully");
+    } else {
+        sendResponse(false, "Question creation failed");
+    }
+}
+
+
 ?>
