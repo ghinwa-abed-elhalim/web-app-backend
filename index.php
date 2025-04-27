@@ -76,4 +76,20 @@ if (isset($_GET['action']) && $_GET['action'] == "get_quizzes") {
     }
     sendResponse(true, "Quizzes fetched", $quizzes);
 }
+
+
+if (isset($_POST['action']) && $_POST['action'] == "edit_quiz") {
+    $quiz_id = $_POST['quiz_id'];
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+
+    $stmt = $conn->prepare("UPDATE quizzes SET title = ?, description = ? WHERE id = ?");
+    $stmt->bind_param("ssi", $title, $description, $quiz_id);
+
+    if ($stmt->execute()) {
+        sendResponse(true, "Quiz updated successfully");
+    } else {
+        sendResponse(false, "Quiz update failed");
+    }
+}
 ?>
